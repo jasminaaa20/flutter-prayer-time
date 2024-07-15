@@ -14,7 +14,13 @@ class MyApp extends StatelessWidget {
       title: 'Prayer Times App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
       home: const PrayerTimesPage(),
       debugShowCheckedModeBanner: false,
     );

@@ -11,7 +11,7 @@ class PrayerTimeCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 32.0),
+        padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
