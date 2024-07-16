@@ -20,7 +20,7 @@ class PrayerTimesService {
     String country = place.country ?? 'Sri Lanka';
 
     // Construct the API URL
-    final url = Uri.parse('$_baseUrl?city=$city&country=$country&method=2&date=$currentDate');
+    final url = Uri.parse('$_baseUrl?city=$city&country=$country&date=$currentDate');
 
     // Make the GET request
     final response = await http.get(url);

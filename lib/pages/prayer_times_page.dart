@@ -55,7 +55,7 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
           ? const Center(child: CircularProgressIndicator())
           : SafeArea(
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                 child: Column(
                   children: [
                     PrayerTimeHeader(
@@ -64,18 +64,21 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
                       toDate: _toDate,
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: _filteredKeys.length,
-                        itemBuilder: (context, index) {
-                          String key = _filteredKeys[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: PrayerTimeCard(
-                              prayerName: key,
-                              prayerTime: _prayerTimes![key],
-                            ),
-                          );
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 32.0),
+                        child: ListView.builder(
+                          itemCount: _filteredKeys.length,
+                          itemBuilder: (context, index) {
+                            String key = _filteredKeys[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: PrayerTimeCard(
+                                prayerName: key,
+                                prayerTime: _prayerTimes![key],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
