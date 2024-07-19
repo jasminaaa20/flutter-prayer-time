@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.jakmalali.prayer_time">
+package="com.ali.prayer_time">
     <!-- Required permissions -->
     <!-- Allows the app to access the internet -->
     <uses-permission android:name="android.permission.INTERNET"/>

@@ -4,28 +4,58 @@ class PrayerTimeCard extends StatelessWidget {
   final String prayerName;
   final String prayerTime;
 
-  const PrayerTimeCard({super.key, required this.prayerName, required this.prayerTime});
+  const PrayerTimeCard({
+    super.key, 
+    required this.prayerName, 
+    required this.prayerTime
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 6),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
+        padding: const EdgeInsets.all(16),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              prayerName,
-              style: const TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+            Icon(
+              _getIconForPrayer(prayerName),
+              color: Theme.of(context).primaryColorDark,
+              size: 32,
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                prayerName,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+              ),
             ),
             Text(
               prayerTime,
-              style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),
       ),
     );
+  }
+
+  IconData _getIconForPrayer(String prayerName) {
+    switch (prayerName) {
+      case 'Fajr':
+        return Icons.brightness_2;
+      case 'Sunrise':
+        return Icons.wb_sunny;
+      case 'Dhuhr':
+        return Icons.brightness_5;
+      case 'Asr':
+        return Icons.brightness_4;
+      case 'Maghrib':
+        return Icons.brightness_3;
+      case 'Isha':
+        return Icons.nightlight_round;
+      default:
+        return Icons.access_time;
+    }
   }
 }
