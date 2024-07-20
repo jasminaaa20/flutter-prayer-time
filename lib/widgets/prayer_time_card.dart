@@ -42,17 +42,17 @@ class PrayerTimeCard extends StatelessWidget {
 
   IconData _getIconForPrayer(String prayerName) {
     switch (prayerName) {
-      case 'Fajr':
+      case 'fajr':
         return Icons.brightness_2;
-      case 'Sunrise':
+      case 'sunrise':
         return Icons.wb_sunny;
-      case 'Dhuhr':
+      case 'dhuhr':
         return Icons.brightness_5;
-      case 'Asr':
+      case 'asr':
         return Icons.brightness_4;
-      case 'Maghrib':
+      case 'maghrib':
         return Icons.brightness_3;
-      case 'Isha':
+      case 'isha':
         return Icons.nightlight_round;
       default:
         return Icons.access_time;

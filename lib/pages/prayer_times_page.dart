@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:prayer_time/services/prayer_times_service.dart';
-import 'package:prayer_time/widgets/prayer_time_card.dart';
 import 'package:prayer_time/widgets/prayer_time_header.dart';
+import 'package:prayer_time/widgets/prayer_times_list.dart';
 import 'package:prayer_time/widgets/valid_until_note.dart';
 
 class PrayerTimesPage extends StatefulWidget {
@@ -15,7 +14,7 @@ class PrayerTimesPage extends StatefulWidget {
 class PrayerTimesPageState extends State<PrayerTimesPage> {
   final PrayerTimesService _prayerTimesService = PrayerTimesService();
   Map<String, dynamic>? _prayerTimes;
-  final List<String> _filteredKeys = [
+  final List<String> _shafiFilter = [
     "fajr",
     "sunrise",
     "dhuhr",
@@ -28,14 +27,6 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
   void initState() {
     super.initState();
     _loadPrayerTimes();
-    // _prayerTimes = {
-    //   "Fajr": "5:00 AM",
-    //   "Sunrise": "6:15 AM",
-    //   "Dhuhr": "12:00 PM",
-    //   "Asr": "03:15 PM",
-    //   "Maghrib": "06:00 PM",
-    //   "Isha": "07:15 PM"
-    // };
   }
 
   Future<void> _loadPrayerTimes() async {
@@ -58,26 +49,17 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
             child: Column(
               children: [
                 PrayerTimeHeader(
-                  date: DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                  date: _prayerTimes!['date'],
                   hijriDate: 'Muharram 12 1446 AH',
                   city: 'Colombo, Sri Lanka',
                   madhab: 'Shafi\'i',
                 ),
                 const SizedBox(height:10),
-                const ValidUntilNote(endDate: '26 July 2024'),
+                ValidUntilNote(endDate: _prayerTimes!['endDate']),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: _filteredKeys.length,
-                    itemBuilder: (context, index) {
-                      String key = _filteredKeys[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: PrayerTimeCard(
-                          prayerName: key,
-                          prayerTime: _prayerTimes![key],
-                        ),
-                      );
-                    }
+                  child: PrayerTimesList(
+                    filteredKeys: _shafiFilter, 
+                    prayerTimes: _prayerTimes
                   )
                 )
               ],

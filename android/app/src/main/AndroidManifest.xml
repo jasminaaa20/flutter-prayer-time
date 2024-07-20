@@ -8,7 +8,7 @@ package="com.ali.prayer_time">
     <!-- Allows the app to access coarse location (network-based location) -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
-        android:label="prayer time"
+        android:label="PrayerTimes LK"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
