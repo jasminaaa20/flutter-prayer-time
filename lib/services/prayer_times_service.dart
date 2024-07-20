@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 
 class PrayerTimesService {
   static const String _baseUrl = 'https://api.aladhan.com/v1/timingsByCity';
+  final CollectionReference _prayerTimesCollection = FirebaseFirestore.instance.collection('prayerTimes');
 
   Future<Map<String, dynamic>> fetchPrayerTimes() async {
     // Get current date
@@ -30,6 +32,19 @@ class PrayerTimesService {
     } else {
       throw Exception('Failed to load prayer times');
     }
+  }
+  
+  Future<Map<String, dynamic>?> fetchCurrentPrayerTimes() async {
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    QuerySnapshot snapshot = await _prayerTimesCollection
+        .where('startDate', isLessThanOrEqualTo: today)
+        .where('endDate', isGreaterThanOrEqualTo: today)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return snapshot.docs.first.data() as Map<String, dynamic>?;
+    }
+    return null;
   }
 
   Future<Position> _determinePosition() async {

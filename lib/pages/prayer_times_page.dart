@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:prayer_time/services/prayer_times_service.dart';
 import 'package:prayer_time/widgets/prayer_time_card.dart';
 import 'package:prayer_time/widgets/prayer_time_header.dart';
@@ -15,33 +16,33 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
   final PrayerTimesService _prayerTimesService = PrayerTimesService();
   Map<String, dynamic>? _prayerTimes;
   final List<String> _filteredKeys = [
-    "Fajr",
-    "Sunrise",
-    "Dhuhr",
-    "Asr",
-    "Maghrib",
-    "Isha"
+    "fajr",
+    "sunrise",
+    "dhuhr",
+    "asr",
+    "maghrib",
+    "isha"
   ];
 
   @override
   void initState() {
     super.initState();
-    // _loadPrayerTimes();
-    _prayerTimes = {
-      "Fajr": "5:00 AM",
-      "Sunrise": "6:15 AM",
-      "Dhuhr": "12:00 PM",
-      "Asr": "03:15 PM",
-      "Maghrib": "06:00 PM",
-      "Isha": "07:15 PM"
-    };
+    _loadPrayerTimes();
+    // _prayerTimes = {
+    //   "Fajr": "5:00 AM",
+    //   "Sunrise": "6:15 AM",
+    //   "Dhuhr": "12:00 PM",
+    //   "Asr": "03:15 PM",
+    //   "Maghrib": "06:00 PM",
+    //   "Isha": "07:15 PM"
+    // };
   }
 
   Future<void> _loadPrayerTimes() async {
     try {
-      final data = await _prayerTimesService.fetchPrayerTimes();
+      final data = await _prayerTimesService.fetchCurrentPrayerTimes();
       setState(() {
-        _prayerTimes = data['timings'];
+        _prayerTimes = data;
       });
     } catch (e) {
       debugPrint('Failed to fetch prayer times: $e');
@@ -56,8 +57,8 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
           : SafeArea(
             child: Column(
               children: [
-                const PrayerTimeHeader(
-                  date: '19 July 2024',
+                PrayerTimeHeader(
+                  date: DateFormat('dd MMMM yyyy').format(DateTime.now()),
                   hijriDate: 'Muharram 12 1446 AH',
                   city: 'Colombo, Sri Lanka',
                   madhab: 'Shafi\'i',

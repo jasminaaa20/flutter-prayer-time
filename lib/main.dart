@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:prayer_time/pages/prayer_times_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const PrayerTimesApp());
 }
 
@@ -20,7 +23,7 @@ class PrayerTimesApp extends StatelessWidget {
           bodyLarge: TextStyle(fontSize: 24),
           bodyMedium: TextStyle(fontSize: 18),
           bodySmall: TextStyle(fontSize: 14),
-          titleLarge: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
         ),
       ),
       home: const PrayerTimesPage(),
