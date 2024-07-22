@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prayer_time/services/prayer_times_service.dart';
 import 'package:prayer_time/widgets/prayer_time_header.dart';
 import 'package:prayer_time/widgets/prayer_times_list.dart';
 import 'package:prayer_time/widgets/valid_until_note.dart';
+import 'package:prayer_time/providers/madhab_provider.dart';
+import 'package:provider/provider.dart';
 
 class PrayerTimesPage extends StatefulWidget {
   const PrayerTimesPage({super.key});
@@ -15,7 +16,6 @@ class PrayerTimesPage extends StatefulWidget {
 class PrayerTimesPageState extends State<PrayerTimesPage> {
   final PrayerTimesService _prayerTimesService = PrayerTimesService();
   Map<String, dynamic>? _prayerTimes;
-  String? _selectedMadhab;
   final List<String> _shafiFilter = [
     "fajr",
     "sunrise",
@@ -37,7 +37,6 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
   void initState() {
     super.initState();
     _loadPrayerTimes();
-    _loadMadhabPreference();
   }
 
   Future<void> _loadPrayerTimes() async {
@@ -51,31 +50,18 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
     }
   }
 
-  Future<void> _loadMadhabPreference() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      _selectedMadhab = preferences.getString('madhab') ?? 'Shafi\'i';
-    });
-  }
-
-  Future<void> _saveMadhabPreference(String madhab) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('madhab', madhab);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final madhabProvider = Provider.of<MadhabProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Prayer Times'),
         actions: [
           DropdownButton<String>(
-            value: _selectedMadhab,
+            value: madhabProvider.madhab,
             onChanged: (String? newValue) async {
-              setState(() {
-                _selectedMadhab = newValue!;
-              });
-              await _saveMadhabPreference(newValue!);
+              madhabProvider.setMadhab(newValue!);
             },
             items: <String>['Shafi\'i', 'Hanafi']
                 .map<DropdownMenuItem<String>>((String value) {
@@ -96,13 +82,13 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
                     date: _prayerTimes!['date'],
                     hijriDate: 'Muharram 12 1446 AH',
                     city: 'Colombo, Sri Lanka',
-                    madhab: _selectedMadhab!,
+                    madhab: madhabProvider.madhab!,
                   ),
                   const SizedBox(height: 10),
                   ValidUntilNote(endDate: _prayerTimes!['endDate']),
                   Expanded(
                     child: PrayerTimesList(
-                      filteredKeys: _selectedMadhab == 'Shafi\'i'
+                      filteredKeys: madhabProvider.madhab == 'Shafi\'i'
                           ? _shafiFilter
                           : _hanafiFilter,
                       prayerTimes: _prayerTimes,
