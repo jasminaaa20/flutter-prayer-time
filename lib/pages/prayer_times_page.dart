@@ -4,6 +4,7 @@ import 'package:prayer_time/widgets/prayer_time_header.dart';
 import 'package:prayer_time/widgets/prayer_times_list.dart';
 import 'package:prayer_time/widgets/valid_until_note.dart';
 import 'package:prayer_time/providers/madhab_provider.dart';
+import 'package:prayer_time/services/hijri_date_service.dart';
 import 'package:provider/provider.dart';
 
 class PrayerTimesPage extends StatefulWidget {
@@ -15,7 +16,9 @@ class PrayerTimesPage extends StatefulWidget {
 
 class PrayerTimesPageState extends State<PrayerTimesPage> {
   final PrayerTimesService _prayerTimesService = PrayerTimesService();
+  final HijriDateService _hijriDateService = HijriDateService();
   Map<String, dynamic>? _prayerTimes;
+  String? _hijriDate;
   final List<String> _shafiFilter = [
     "fajr",
     "sunrise",
@@ -37,6 +40,7 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
   void initState() {
     super.initState();
     _loadPrayerTimes();
+    _calculateHijriDate();
   }
 
   Future<void> _loadPrayerTimes() async {
@@ -47,6 +51,17 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
       });
     } catch (e) {
       debugPrint('Failed to fetch prayer times: $e');
+    }
+  }
+
+  Future<void> _calculateHijriDate() async {
+    try {
+      final hijriDate = await _hijriDateService.calculateHijriDate(DateTime.now());
+      setState(() {
+        _hijriDate = hijriDate;
+      });
+    } catch (e) {
+      debugPrint('Failed to calculate Hijri date: $e');
     }
   }
 
@@ -80,7 +95,7 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
                 children: [
                   PrayerTimeHeader(
                     date: _prayerTimes!['date'],
-                    hijriDate: 'Muharram 12 1446 AH',
+                    hijriDate: _hijriDate ?? 'Calculating...',
                     city: 'Colombo, Sri Lanka',
                     madhab: madhabProvider.madhab!,
                   ),
