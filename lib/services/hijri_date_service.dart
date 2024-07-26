@@ -14,27 +14,16 @@ class HijriDateService {
 
   Future<String> calculateHijriDate(DateTime gregorianDate) async {
     int year = gregorianDate.year;
-    int previousYear = year - 1;
 
     // Fetch data for the current year and the previous year to handle overlap
-    Map<String, dynamic>? monthStartsCurrentYear = await fetchHijriMonthStarts(year);
-    Map<String, dynamic>? monthStartsPreviousYear = await fetchHijriMonthStarts(previousYear);
+    Map<String, dynamic>? monthStarts = await fetchHijriMonthStarts(year);
 
-    if (monthStartsCurrentYear == null && monthStartsPreviousYear == null) {
+    if (monthStarts == null) {
       throw Exception('No data available for the provided date.');
     }
 
-    // Merge the data for easier processing
-    Map<String, dynamic> monthStarts = {};
-    if (monthStartsPreviousYear != null) {
-      monthStarts.addAll(monthStartsPreviousYear);
-    }
-    if (monthStartsCurrentYear != null) {
-      monthStarts.addAll(monthStartsCurrentYear);
-    }
-
     String hijriDate = '';
-    DateTime closestStartDate = DateTime.parse('1970-01-01'); // Arbitrary small date
+    DateTime closestStartDate = DateTime.parse('1970-01-01');
     DateTime monthStartDate = DateTime.parse('1970-01-01');
     String month = '';
 
