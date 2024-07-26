@@ -1,4 +1,4 @@
-package com.ali.prayer_time;
+package com.jakmalali.prayer_time;
 
 import io.flutter.embedding.android.FlutterActivity;
 
