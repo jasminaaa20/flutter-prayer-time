@@ -48,7 +48,7 @@ class PrayerTimeCard extends StatelessWidget {
         return Icons.wb_sunny;
       case 'dhuhr':
         return Icons.brightness_5;
-      case 'asr':
+      case 'asr' || 'hanafiAsr':
         return Icons.brightness_4;
       case 'maghrib':
         return Icons.brightness_3;
