@@ -11,15 +11,15 @@ class MadhabProvider extends ChangeNotifier {
   String? get madhab => _madhab;
 
   Future<void> _loadMadhabPreference() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _madhab = prefs.getString('madhab') ?? 'Shafi\'i';
+    SharedPreferences userPreferences = await SharedPreferences.getInstance();
+    _madhab = userPreferences.getString('madhab') ?? 'Shafi\'i';
     notifyListeners();
   }
 
   Future<void> setMadhab(String madhab) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences userPreferences = await SharedPreferences.getInstance();
     _madhab = madhab;
-    await prefs.setString('madhab', madhab);
+    await userPreferences.setString('madhab', madhab);
     notifyListeners();
   }
 }
