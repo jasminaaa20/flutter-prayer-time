@@ -38,7 +38,7 @@ class HijriDateService {
     });
 
     int daysPassed = gregorianDate.difference(closestStartDate).inDays;
-    hijriDate = '${daysPassed + 1} $month AH';
+    hijriDate = '${daysPassed + 1} $month';
 
     return hijriDate;
   }
