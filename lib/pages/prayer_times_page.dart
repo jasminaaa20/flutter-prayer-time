@@ -70,24 +70,24 @@ class PrayerTimesPageState extends State<PrayerTimesPage> {
     final madhabProvider = Provider.of<MadhabProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Prayer Times'),
-        actions: [
-          DropdownButton<String>(
-            value: madhabProvider.madhab,
-            onChanged: (String? newValue) async {
-              madhabProvider.setMadhab(newValue!);
-            },
-            items: <String>['Shafi\'i', 'Hanafi']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Prayer Times'),
+      //   actions: [
+      //     DropdownButton<String>(
+      //       value: madhabProvider.madhab,
+      //       onChanged: (String? newValue) async {
+      //         madhabProvider.setMadhab(newValue!);
+      //       },
+      //       items: <String>['Shafi\'i', 'Hanafi']
+      //           .map<DropdownMenuItem<String>>((String value) {
+      //         return DropdownMenuItem<String>(
+      //           value: value,
+      //           child: Text(value),
+      //         );
+      //       }).toList(),
+      //     ),
+      //   ],
+      // ),
       body: _prayerTimes == null
           ? const Center(child: CircularProgressIndicator())
           : SafeArea(
