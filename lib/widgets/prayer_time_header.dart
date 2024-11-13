@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:prayer_time/providers/madhab_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class PrayerTimeHeader extends StatelessWidget {
   final String date;
@@ -16,6 +19,7 @@ class PrayerTimeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final madhabProvider = Provider.of<MadhabProvider>(context);
     return Card(
       margin: const EdgeInsets.all(16),
       child: SizedBox(
@@ -34,7 +38,7 @@ class PrayerTimeHeader extends StatelessWidget {
               ),
               Text(
                 hijriDate,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: ShadTheme.of(context).textTheme.h1,
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -50,6 +54,10 @@ class PrayerTimeHeader extends StatelessWidget {
                   ),
                 textAlign: TextAlign.center,
               ),
+              ShadButton.ghost(
+                icon: const Icon(Icons.settings),
+                onPressed: () async => madhabProvider.setMadhab(madhab == 'Shafi\'i' ? 'Hanafi' : 'Shafi\'i'),
+              )
             ],
           ),
         ),
